@@ -1,47 +1,53 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+void selectionSort(int *array, int array_size)
+{
+    for (int i = 0; i < array_size - 1; i++)
+    {
+        int menor_indice = i;
+        for (int j = i + 1; j < array_size; j++)
+        {
+            if (array[j] < array[menor_indice])
+            {
+                menor_indice = j;
+            }
+        }
+        int temp = array[i];
+        array[i] = array[menor_indice];
+        array[menor_indice] = temp;
+    }
+}
 
 int main()
 {
-    int array_original[] = {25, 21, 25, 22, 21};
+    int array_size;
+    printf("Digite o tamanho da array: ");
+    scanf("%d", &array_size);
 
-    int array_size = sizeof(array_original) / sizeof(array_original[0]);
+    int *array = (int *)malloc(array_size * sizeof(int));
 
-    printf("Array desordenado: \n");
+    if (array == NULL)
+    {
+        printf("Erro ao alocar memória!");
+        return 1;
+    }
+
+    printf("Insira os elementos da array: ");
     for (int i = 0; i < array_size; i++)
     {
-        printf("%d ", array_original[i]);
+        scanf("%d", &array[i]);
+    }
+
+    selectionSort(array, array_size);
+
+    printf("Array ordenada:");
+    for (int i = 0; i < array_size; i++)
+    {
+        printf(" %d", array[i]);
     }
     printf("\n");
+    free(array);
 
-    if (array_original != NULL)
-    {
-
-        for (int i = 0; i < array_size - 1; i++)
-        {
-            int menor_indice = i;
-            for (int j = i + 1; j < array_size; j++)
-            {
-                if (array_original[j] < array_original[menor_indice])
-                {
-                    menor_indice = j;
-                }
-
-                int temp = array_original[i];
-                array_original[i] = array_original[menor_indice];
-                array_original[menor_indice] = temp;
-            }
-        }
-
-        printf("Array ordenado: \n");
-        for (int i = 0; i < array_size; i++)
-        {
-            printf("%d ", array_original[i]);
-        }
-
-        return 0;
-    }
-    else
-    {
-        printf("Pilha vazia!\n");
-    }
+    return 0;
 }
